@@ -60,7 +60,7 @@ public class SpaceShipControls : MonoBehaviour
         }
 
         //Rotate the ship
-        //не очень естественно, но более дружелюбное управление,поворотом коробля управляем полноценно мы а не физика 
+        //not very natural, but more friendly control, we fully control the turn of the ship
         transform.Rotate(Vector3.forward * turnInput * Time.deltaTime * -turnThrust);  
 
 
@@ -96,7 +96,7 @@ public class SpaceShipControls : MonoBehaviour
         //rd.AddTorque(-turnInput);
     }
 
-    void ScorePoints(int pointsToAdd) //счет очков
+    void ScorePoints(int pointsToAdd) //score points
     {
         score += pointsToAdd;
         scoreText.text = "Score " + score;

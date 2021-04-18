@@ -5,8 +5,8 @@ using UnityEngine;
 public class AsteroidScript : MonoBehaviour
 {
 
-    public float maxThrust; //задаем толчек
-    public float maxTorque; //крутящий момент
+    public float maxThrust; //max Thrust
+    public float maxTorque; //max torque
     public Rigidbody2D rb;
     public float screenTop;
     public float screenBottom;
@@ -66,7 +66,7 @@ public class AsteroidScript : MonoBehaviour
         transform.position = newPos;
     }
     
-    //при столкновение пули с астероидом обьект поля разрушается 
+    //when a bullet collides with an asteroid, the object of the field is destroyed 
      void OnTriggerEnter2D(Collider2D other)
     {
         //Check to see if its a bullet
@@ -97,8 +97,8 @@ public class AsteroidScript : MonoBehaviour
                 gameManager.UpdateNumberOfAsteroids(-1);
                 
             }
-            //tell the player to score some point
-            player.SendMessage("ScorePoints", points); // сообщение о каждом попадании передается игроку(кораблю) и там считаются очки
+            //tell the player to score some point by shuting
+            player.SendMessage("ScorePoints", points); 
 
             //Make an explosion
             GameObject newExplosion = Instantiate(explosion, transform.position, transform.rotation);
