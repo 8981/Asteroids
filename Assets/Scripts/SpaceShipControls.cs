@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class SpaceShipControls : MonoBehaviour
 {
     public Rigidbody2D rd;
+    public SpriteRenderer spriteRenderer;
+    public Collider2D colider;
     public float thrust;
     public float turnThrust;
     private float thrustInput;
@@ -17,6 +19,7 @@ public class SpaceShipControls : MonoBehaviour
     public float screenRight;
     public float bulletForce;
     public float deathForce;
+    private bool hyperspace; //true = currently hyperspacing
 
     public int score;
     public int lives;
@@ -38,7 +41,7 @@ public class SpaceShipControls : MonoBehaviour
     void Start()
     {
         score = 0;
-
+        hyperspace  = false;
         scoreText.text = "Score " + score;
         livesText.text = "Lives " + lives;
     }
@@ -57,6 +60,16 @@ public class SpaceShipControls : MonoBehaviour
             GameObject newBullet = Instantiate(bullet, transform.position, transform.rotation);
             newBullet.GetComponent<Rigidbody2D>().AddRelativeForce(Vector2.up * bulletForce);
             Destroy(newBullet, 5.0f);//bullet lifetime to free memory
+        }
+
+        //Check for hyperspace
+        if(Input.GetButtonDown ("Hyperspace") && !hyperspace)
+        {
+            hyperspace = true;
+            //Turn of colliders and spriteRender
+            spriteRenderer.enabled = false;
+            colider.enabled = false;
+            Invoke("Hyperspace", 1f);
         }
 
         //Rotate the ship
@@ -109,19 +122,31 @@ public class SpaceShipControls : MonoBehaviour
         rd.velocity = Vector2.zero;
         transform.position = Vector2.zero;
 
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        sr.enabled = true;
-        sr.color = inColor;
+       
+        spriteRenderer.enabled = true;
+        spriteRenderer.color = inColor;
         Invoke("Invulnerable", 3f);
     }
 
     void Invulnerable()
     {
-         GetComponent<Collider2D>().enabled = true;
-         GetComponent<SpriteRenderer>().color = normalColor;
+         colider.enabled = true;
+         spriteRenderer.color = normalColor;
     }
 
-    //фиксация столкновения с астероидами
+    void Hyperspace()
+    {
+        //Move to new render position
+        Vector2 newPosition = new Vector2(Random.Range(-14f, 14f), Random.Range(-9f, 9f));
+        transform.position = newPosition;
+        //Turn on colliders and spriteRender
+        spriteRenderer.enabled = true;
+        colider.enabled = true;
+
+        hyperspace = false;
+    }
+
+    //fixing collision with asteroid
     void OnCollisionEnter2D(Collision2D col)
     {
         Debug.Log(col.relativeVelocity.magnitude);
@@ -134,8 +159,8 @@ public class SpaceShipControls : MonoBehaviour
             Destroy(newExplosion, 3f);
             livesText.text = "Lives " + lives;
             //Respawn - New Live
-            GetComponent<SpriteRenderer>().enabled = false;
-            GetComponent<Collider2D>().enabled = false;
+            spriteRenderer.enabled = false;
+            colider.enabled = false;
             Invoke("Respawn", 3f);
 
             if (lives <= 0)

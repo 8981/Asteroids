@@ -746,6 +746,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rd: {fileID: 1460310578}
+  spriteRenderer: {fileID: 1460310579}
+  colider: {fileID: 1460310581}
   thrust: 1
   turnThrust: 90
   screenTop: 10.5
@@ -844,7 +846,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1460310576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.07, y: -3.27, z: 0}
+  m_LocalPosition: {x: -9.19, y: -1.97, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
